@@ -1,87 +1,50 @@
-import ContactForm from './contactForm/ContactForm';
-import ContactList from './contactList/ContactList.js';
-import Filter from './ContactFilter/ContactFiltr';
-import css from './App.module.css';
+import { useEffect, lazy } from 'react';
+import { useDispatch } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { Layout } from './Layout';
+import { PrivateRoute } from './PrivateRoute';
+import { RestrictedRoute } from './RestrictedRoute';
+import { refreshUser } from 'redux/auth/operations';
+import { useAuth } from 'hooks';
 
-// import ContactUs from './components/contactUs/ContactUs';
-// const initialState = [
-//   { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-//   { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-//   { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-//   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-// ];
+const HomePage = lazy(() => import('../pages/Home'));
+const RegisterPage = lazy(() => import('../pages/Register'));
+const LoginPage = lazy(() => import('../pages/Login'));
+const TasksPage = lazy(() => import('../pages/Tasks'));
 
-const App = () => {
-  //  // первірка localstorage на наявність контактів
-  //  const [contacts, setContacts] = useState(() => {
-  //   return JSON.parse(localStorage.getItem('contacts')) ?? initialState;
-  // });
+export const App = () => {
+  const dispatch = useDispatch();
+  const { isRefreshing } = useAuth();
 
-  // const [filter, setFilter] = useState('');
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
 
-  // //Збереження в локал сторідж
-  //   useEffect(() => {
-  //     localStorage.setItem('contacts', JSON.stringify(contacts));
-  //   }, [contacts]);
-
-  //   // Додаємо контакт
-  //   const addContact = ({ name, number }) => {
-  //     const normalizedFind = name.toLowerCase();
-  //     const findName = contacts.find(
-  //       contact => contact.name.toLowerCase() === normalizedFind
-  //     );
-  //     if (findName) {
-  //       return alert(`${name} is already in contacts`);
-  //     }
-
-  //     const findNumber = contacts.find(contact => contact.number === number);
-  //     if (findNumber) {
-  //       return alert(`This phone number is already in use.`);
-  //     }
-
-  //     const newContact = {
-  //       id: nanoid(),
-  //       name,
-  //       number,
-  //     };
-
-  //     setContacts(contacts => [...contacts, newContact]);
-  //   };
-
-  // // видаленя контакту
-  // const deleteContact = contactId =>{
-  //   setContacts(contacts =>
-  //     contacts.filter(contact => contact.id !== contactId)
-  //   );
-  // };
-
-  // const handleFilter = e => {
-  //   setFilter(e.currentTarget.value);
-  // };
-
-  //медод класу який викликається один раз____________________
-  //_______________________________________________
-
-  // фільтрація по імені
-
-  //  const filterList = () => {
-  //   const normalValue = filter.toLowerCase().trim();
-  //   return contacts.filter(contact =>
-  //     contact.name.toLowerCase().includes(normalValue)
-  //   );
-  // };
-
-  // const visibleContacts = filterList();
-
-  return (
-    <div className={css.container}>
-      <h1 className={css.texth1}>Книга контактів</h1>
-      <ContactForm  />
-      <Filter  />
-      <ContactList  />
-
-    </div>
+  return isRefreshing ? (
+    <b>Refreshing user...</b>
+  ) : (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route
+          path="/register"
+          element={
+            <RestrictedRoute redirectTo="/tasks" component={<RegisterPage />} />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <RestrictedRoute redirectTo="/tasks" component={<LoginPage />} />
+          }
+        />
+        <Route
+          path="/tasks"
+          element={
+            <PrivateRoute redirectTo="/login" component={<TasksPage />} />
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
-
-export default App;
