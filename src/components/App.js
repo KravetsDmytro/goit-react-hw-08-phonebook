@@ -1,50 +1,32 @@
-import { useEffect, lazy } from 'react';
-import { useDispatch } from 'react-redux';
+
+// import { useDispatch } from 'react-redux';
+// import css from './App.module.css';
 import { Route, Routes } from 'react-router-dom';
-import { Layout } from './Layout';
-import { PrivateRoute } from './PrivateRoute';
-import { RestrictedRoute } from './RestrictedRoute';
-import { refreshUser } from 'redux/auth/operations';
-import { useAuth } from 'hooks';
+import Layout from './Layout/Layout';
+import Home from 'pages/Home';
+import Register from 'pages/Register';
+import Login from 'pages/Login';
+import Contacts from 'pages/Contacts';
 
-const HomePage = lazy(() => import('../pages/Home'));
-const RegisterPage = lazy(() => import('../pages/Register'));
-const LoginPage = lazy(() => import('../pages/Login'));
-const TasksPage = lazy(() => import('../pages/Tasks'));
+const App = () => {
+// const dispapch=useDispatch();
 
-export const App = () => {
-  const dispatch = useDispatch();
-  const { isRefreshing } = useAuth();
 
-  useEffect(() => {
-    dispatch(refreshUser());
-  }, [dispatch]);
+  return (
 
-  return isRefreshing ? (
-    <b>Refreshing user...</b>
-  ) : (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<HomePage />} />
-        <Route
-          path="/register"
-          element={
-            <RestrictedRoute redirectTo="/tasks" component={<RegisterPage />} />
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <RestrictedRoute redirectTo="/tasks" component={<LoginPage />} />
-          }
-        />
-        <Route
-          path="/tasks"
-          element={
-            <PrivateRoute redirectTo="/login" component={<TasksPage />} />
-          }
-        />
-      </Route>
-    </Routes>
+<Routes>
+<Route path='/' element={<Layout />}>
+<Route index element={<Home />}/>
+<Route path='/register' element={<Register />}/>
+<Route path='/login' element={<Login />}/>
+<Route path='/contacts' element={<Contacts />}/>
+ </Route>
+ </Routes>
+
+
+
+
   );
 };
+
+export default App;
