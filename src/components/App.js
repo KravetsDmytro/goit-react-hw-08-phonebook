@@ -7,7 +7,8 @@ import Home from 'pages/Home';
 import Register from 'pages/Register';
 import Login from 'pages/Login';
 import Contacts from 'pages/Contacts';
-
+import { PrivateRoute } from './PrivateRoute';
+import { RestrictedRoute } from './RestrictedRoute';
 const App = () => {
 // const dispapch=useDispatch();
 
@@ -17,9 +18,11 @@ const App = () => {
 <Routes>
 <Route path='/' element={<Layout />}>
 <Route index element={<Home />}/>
-<Route path='/register' element={<Register />}/>
-<Route path='/login' element={<Login />}/>
-<Route path='/contacts' element={<Contacts />}/>
+<Route path='/register'
+ element={<RestrictedRoute redirectTo='/contact' component={<Register/>}/>}/>
+<Route path='/login'
+ element={<RestrictedRoute redirectTo='/contact' component={<Login/>}/>}/>
+<Route path='/contacts' element={<PrivateRoute  redirectTo='/login'  component={<Contacts/>}/>}/>
  </Route>
  </Routes>
 
