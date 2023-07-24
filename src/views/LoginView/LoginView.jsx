@@ -30,7 +30,7 @@ const LoginView = () => {
   };
 
   return (
-    <div>
+    <div className={css.loginForm}>
       <h1>Log in</h1>
       <form onSubmit={handleSubmit} className={css.form}>
         <label htmlFor={nameInputId}>Email</label>

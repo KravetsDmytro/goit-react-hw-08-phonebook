@@ -18,7 +18,7 @@ const RegisterView = () => {
   };
 
   return (
-    <div>
+    <div className={css.registerForm} >
       <h1>Register</h1>
       <form onSubmit={handleSubmit} className={css.form}>
 
