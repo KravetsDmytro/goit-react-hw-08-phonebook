@@ -1,7 +1,7 @@
 import React from 'react';
 import css from './HomeView.module.css';
 import phoneIcon from '../../img/icons8-phone-book-96.png';
-
+import { AuthNav } from 'components/AuthNav/AuthNav';
 const HomeView = () => {
   return (
     <div className={css.form}>
@@ -15,7 +15,7 @@ const HomeView = () => {
         objectFit="cover"
       />
       </div>
-<p></p>
+<p className={css.authNav}><AuthNav /></p>
 
     </div>
   );
