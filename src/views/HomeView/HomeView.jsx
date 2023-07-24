@@ -5,7 +5,8 @@ import phoneIcon from '../../img/icons8-phone-book-96.png';
 const HomeView = () => {
   return (
     <div className={css.form}>
-      <h1>Phonebook </h1>
+<div className={css.homeDiv}>
+      <h1>Welcome to the contact book </h1>
       <img
         src={phoneIcon}
         width="96px"
@@ -13,6 +14,9 @@ const HomeView = () => {
         boxSize="200px"
         objectFit="cover"
       />
+      </div>
+<p></p>
+
     </div>
   );
 };
