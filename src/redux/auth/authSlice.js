@@ -1,20 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { register } from './authOperation';
-import {  persistReducer } from 'redux-persist';
-import storage   from 'redux-persist/lib/storage';
+import { logIn, logOut, refreshUser, register } from './authOperations';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
+const { createSlice } = require('@reduxjs/toolkit');
 
-const persistConfig ={
-key:'auth',
-storage,
-whiteList:['token'],
+const persistConfig = {
+  key: 'auth',
+  storage,
+  whitelist: ['token'],
 };
 
 const initialState = {
-  user: null,
+  user: { name: null, email: null },
   token: null,
   error: null,
-  isLoading: false,
+  errorLogin: false,
+  isLoggedIn: false,
+  isRefreshing: false,
 };
 
 const authSlice = createSlice({
@@ -22,21 +24,51 @@ const authSlice = createSlice({
   initialState,
   extraReducers: builder => {
     builder
-      .addCase(register.pending, (state, action) => {
-        state.isLoading = true;
-        state.error = null;
-      })
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload.user;
         state.token = action.payload.token;
-        state.isLoading = false;
+        state.isLoggedIn = true;
       })
       .addCase(register.rejected, (state, action) => {
         state.error = action.payload;
-        state.isLoading = false;
+        state.isLoggedIn = false;
+      })
+      .addCase(refreshUser.pending, state => {
+        state.isRefreshing = true;
+        state.error = null;
+      })
+      .addCase(refreshUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.isRefreshing = false;
+        state.isLoggedIn = true;
+      })
+      .addCase(refreshUser.rejected, (state, action) => {
+        state.error = action.payload;
+        state.isRefreshing = false;
+      })
+      .addCase(logIn.pending, state => {
+        state.error = null;
+        state.errorLogin = false;
+      })
+      .addCase(logIn.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isLoggedIn = true;
+        state.errorLogin = false;
+      })
+      .addCase(logIn.rejected, (state, action) => {
+        state.error = action.payload;
+        state.isLoggedIn = false;
+        state.isRefreshing = false;
+        state.errorLogin = true;
+      })
+      .addCase(logOut.fulfilled, state => {
+        state.user = { name: null, email: null };
+        state.token = null;
+        state.isLoggedIn = false;
       });
   },
 });
 
-const persistedReducer= persistReducer(persistConfig, authSlice.reducer);
+const persistedReducer = persistReducer(persistConfig, authSlice.reducer);
 export default persistedReducer;

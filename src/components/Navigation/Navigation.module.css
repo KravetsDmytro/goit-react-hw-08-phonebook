@@ -1,0 +1,52 @@
+.link {
+
+}
+
+
+.link.active {
+  color: #031b89;
+}
+
+.link:hover {
+  color: #5fd2fffa;
+}
+
+.bthHome{
+margin-right: 10px;
+  display: inline-block;
+border-radius: 5px;
+  text-decoration: none;
+  padding: 16px;
+  font-weight: 700;
+  color: floralwhite;
+  padding: 10px 44px;
+  background-color: rgb(17, 168, 238);
+  transition-duration: 0.4s;
+}
+
+.btnContacts.bthHome.active {
+  color: #031b89;
+}
+
+ .bthHome:hover {
+  background-color: #4438e4; /* Green */
+  color: #5fd2fffa;
+}
+
+.bthContacts{
+  display: inline-block;
+border-radius: 5px;
+  text-decoration: none;
+  padding: 16px;
+  font-weight: 700;
+  color: floralwhite;
+  padding: 10px 44px;
+  background-color: rgb(17, 168, 238);
+  transition-duration: 0.4s;
+
+
+}
+.bthContacts:hover{
+  background-color: #4438e4; /* Green */
+  color: #5fd2fffa;
+}

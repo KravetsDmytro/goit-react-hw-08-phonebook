@@ -9,7 +9,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-style: normal;
   line-height: 1.5;
-background-image: url(./components/img/BoddyFonpng.png)  ;
+/* background-image: url(./components/img/BoddyFonpng.png)  ; */
 }
 
 code {
