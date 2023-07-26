@@ -43,7 +43,8 @@ const RegisterView = () => {
           name="password"
           id="password"
           pattern="(?=.*\d).{7,}"
-          title="Input Password and Submit [8 to 25 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character]"
+          title="Input Password and Submit [
+            Please enter a password of at least 8 characters]"
           className={css.formInput}
         />
         <button type="submit" className={css.formButton}>
