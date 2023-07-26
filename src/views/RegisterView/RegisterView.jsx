@@ -4,6 +4,7 @@ import { register } from 'redux/auth/authOperations';
 import { useAuth } from 'hooks';
 import css from './RegisterView.module.css';
 
+
 const RegisterView = () => {
   const dispatch = useDispatch();
   const { IsErrorLogin } = useAuth();
@@ -16,6 +17,9 @@ const RegisterView = () => {
 
     dispatch(register({ name, email, password }));
   };
+
+  // const [passwordVisible, setPasswordVisible] = useState(false);
+
 
   return (
     <div className={css.registerForm} >
@@ -38,8 +42,7 @@ const RegisterView = () => {
           type="password"
           name="password"
           id="password"
-          autoComplete="current-password"
-          pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
+          pattern="(?=.*\d).{7,}"
           title="Input Password and Submit [8 to 25 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character]"
           className={css.formInput}
         />
